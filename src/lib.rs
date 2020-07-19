@@ -2,19 +2,18 @@
 #![crate_type = "proc-macro"]
 
 use proc_macro::{TokenStream};
+use syn::{parse_macro_input};
 use quote::{quote};
 
 #[proc_macro_attribute]
-pub fn dot(attr: TokenStream, item: TokenStream) -> TokenStream {
-    println!("dot attr: {}", attr);
-    println!("dot item: {}", item);
+pub fn dot(_attr: TokenStream, item: TokenStream) -> TokenStream {
+    let f = parse_macro_input!(item as syn::ItemFn);
 
     let expanded = quote! {
-        {
-            let mut stream = String::new();
-            stream
-        }
+       #f
     };
+
+    println!("{}", expanded);
 
     TokenStream::from(expanded)
 }
