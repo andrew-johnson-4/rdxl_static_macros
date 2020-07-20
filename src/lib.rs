@@ -4,6 +4,7 @@
 use proc_macro::{TokenStream};
 use syn::{parse_macro_input};
 use quote::{quote};
+use rdxl_internals::xhtml;
 
 #[proc_macro_attribute]
 pub fn dot(_attr: TokenStream, item: TokenStream) -> TokenStream {
@@ -13,20 +14,21 @@ pub fn dot(_attr: TokenStream, item: TokenStream) -> TokenStream {
        #f
     };
 
-    println!("{}", expanded);
-
     TokenStream::from(expanded)
 }
 
 #[proc_macro]
 pub fn dot_html(input: TokenStream) -> TokenStream {
-    println!("dot_html: {}", input);
+    let c = parse_macro_input!(input as xhtml::XhtmlCrumb);
 
     let expanded = quote! {
-        {
-            let mut stream = String::new();
-            stream
-        }
+       {
+          let mut stream = String::new();
+          #c
+          DotHtml {
+             content: stream
+          }
+       }
     };
 
     TokenStream::from(expanded)
