@@ -24,10 +24,12 @@ impl ToTokens for DotTemplate {
       let tid = to_class_case(&format!("{}Template", f.sig.ident));
       let tid = format_ident!("{}", tid, span=f.sig.ident.span());
       let mut tfs = Vec::new();
+      let mut sfs = Vec::new();
       for i in f.sig.inputs.iter() {
          if let FnArg::Typed(pt) = i {
             if let Pat::Ident(ref pi) = *pt.pat {
-               tfs.push(pi.ident.to_string());
+               tfs.push(pi.ident.clone());
+               sfs.push(format_ident!("set_{}", pi.ident, span=pi.ident.span()));
             }
          }
       }
@@ -40,20 +42,17 @@ impl ToTokens for DotTemplate {
          impl #tid {
             pub fn new() -> #tid {
                #tid {
-                  xhtml: std::default::Default::default(),
-                  title: std::default::Default::default(),
+                  #(#tfs : std::default::Default::default(), )*
                }
             }
-            pub fn set_title(mut self, title: String) -> #tid {
-               self.title = title;
+            #(
+            pub fn #sfs(mut self, #tfs: String) -> #tid {
+               self.#tfs = #tfs;
                self
             }
-            pub fn set_xhtml(mut self, xhtml: String) -> #tid {
-               self.xhtml = xhtml;
-               self
-            }
+            )*
             pub fn build(&self) -> String {
-               #fid(self.title.clone(), self.xhtml.clone())
+               #fid( #(self.#tfs.clone()),* )
             }
          }
          #f
