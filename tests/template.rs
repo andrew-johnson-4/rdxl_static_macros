@@ -14,3 +14,15 @@ fn test_template1() {
       "foobar"
    );
 }
+
+#[test]
+fn test_template2() {
+   assert_eq!(
+      dot_html!(
+        template=::template1,
+        title="abc"
+        <p>A B C</p>
+      ).content,
+      "abc<p>A B C</p>"
+   );
+}
