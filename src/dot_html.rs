@@ -43,6 +43,8 @@ impl ToTokens for DotHtmlInvocation {
    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
       let ref xhtml = self.xhtml;
       let mut path = self.template.clone();
+      let ks = self.kwargs.iter().map(|(k,_)| format_ident!("set_{}",k)).collect::<Vec<Ident>>();
+      let vs = self.kwargs.iter().map(|(_,v)| v.clone()).collect::<Vec<Expr>>();
       if path.leading_colon.is_some() {
          path.leading_colon = None;
       }
@@ -51,6 +53,7 @@ impl ToTokens for DotHtmlInvocation {
       }
       quote_spanned!(self.xhtml.span()=>
          #path::new()
+             #(.#ks(#vs))*
              .set_xhtml({
                 let mut stream = String::new();
                 #xhtml
