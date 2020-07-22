@@ -1,8 +1,8 @@
-use quote::{quote_spanned, ToTokens};
-//use proc_macro2::{Span};
+use quote::{format_ident, quote_spanned, ToTokens};
 use syn::parse::{Parse, ParseStream, Result};
 use syn::{Path,Ident,Expr,parse_quote,Token};
 use rdxl_internals::xhtml::Xhtml;
+use inflector::cases::classcase::to_class_case;
 
 pub struct DotHtmlInvocation {
    pub template: Path,
@@ -42,14 +42,21 @@ impl Parse for DotHtmlInvocation {
 impl ToTokens for DotHtmlInvocation {
    fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
       let ref xhtml = self.xhtml;
+      let mut path = self.template.clone();
+      if path.leading_colon.is_some() {
+         path.leading_colon = None;
+      }
+      if let Some(ref mut p) = path.segments.last_mut() {
+         p.ident = format_ident!("{}", to_class_case(&format!("{}Template", p.ident)) );
+      }
       quote_spanned!(self.xhtml.span()=>
-         Template1Template::new()
-               .set_xhtml({
-                  let mut stream = String::new();
-                  #xhtml
-                  stream
-               })
-               .build()
+         #path::new()
+             .set_xhtml({
+                let mut stream = String::new();
+                #xhtml
+                stream
+             })
+             .build()
       ).to_tokens(tokens);    
    }
 }
