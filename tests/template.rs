@@ -8,8 +8,8 @@ fn template1(title: String, xhtml: String) -> String {
 #[test]
 fn test_template1() {
    assert_eq!(
-      template1_TEMPLATE::new()
-               .set_xhtml("foobar")
+      Template1Template::new()
+               .set_xhtml("foobar".to_string())
                .build(),
       "foobar"
    );
@@ -22,7 +22,7 @@ fn test_template2() {
         template=::template1,
         title="abc"
         <p>A B C</p>
-      ).content,
+      ),
       "abc<p>A B C</p>"
    );
 }

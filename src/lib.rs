@@ -39,9 +39,7 @@ pub fn dot_html(input: TokenStream) -> TokenStream {
        {
           let mut stream = String::new();
           #c
-          DotHtml {
-             content: stream
-          }
+          stream
        }
     };
 
