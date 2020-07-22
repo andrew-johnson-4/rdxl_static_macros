@@ -20,7 +20,7 @@ fn test_template2() {
    assert_eq!(
       dot_html!(
         template=::template1,
-        title="abc"
+        title="abc",
         <p>A B C</p>
       ),
       "abc<p>A B C</p>"

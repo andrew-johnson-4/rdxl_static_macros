@@ -37,9 +37,9 @@ impl ToTokens for DotTemplate {
       }
 
       quote_spanned!(syn::spanned::Spanned::span(f)=>
-         struct #tid {
+         pub struct #tid {
             #(
-               #pfs: #tfs,
+               pub #pfs: #tfs,
             )*
          }
          impl #tid {

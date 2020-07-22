@@ -36,11 +36,7 @@ pub fn dot_html(input: TokenStream) -> TokenStream {
     let c = parse_macro_input!(input as DotHtmlInvocation);
 
     let expanded = quote! {
-       {
-          let mut stream = String::new();
-          #c
-          stream
-       }
+       #c
     };
 
     TokenStream::from(expanded)
