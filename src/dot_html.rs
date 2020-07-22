@@ -47,13 +47,12 @@ impl ToTokens for DotHtmlInvocation {
       let vs = self.kwargs.iter().map(|(_,v)| v.clone()).collect::<Vec<Expr>>();
       if let Some(i) = path.get_ident() {
          path = parse_quote!(crate::template::#i);
-      } else {
-         if path.leading_colon.is_some() {
-            path.leading_colon = None;
-         }
-         if let Some(ref mut p) = path.segments.last_mut() {
-            p.ident = format_ident!("{}", to_class_case(&format!("{}Template", p.ident)) );
-         }
+      } 
+      if path.leading_colon.is_some() {
+         path.leading_colon = None;
+      }
+      if let Some(ref mut p) = path.segments.last_mut() {
+         p.ident = format_ident!("{}", to_class_case(&format!("{}Template", p.ident)) );
       }
       quote_spanned!(self.xhtml.span()=>
          #path::new()
