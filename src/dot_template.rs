@@ -49,8 +49,8 @@ impl ToTokens for DotTemplate {
                }
             }
             #(
-            pub fn #sfs(mut self, #pfs: String) -> #tid {
-               self.#pfs = #pfs;
+            pub fn #sfs<S: Into<#tfs>>(mut self, #pfs: S) -> #tid {
+               self.#pfs = #pfs.into();
                self
             }
             )*
