@@ -1,9 +1,7 @@
 use rdxl_static_macros::*;
 
 #[dot]
-#[test]
-fn index1() {}
+fn index1() -> String { "a".to_string() }
 
-#[test]
 #[dot]
-fn index2() {}
+fn index2() -> String { "b".to_string() }
