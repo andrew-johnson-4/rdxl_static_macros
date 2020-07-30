@@ -9,6 +9,8 @@ mod dot_template;
 use dot_template::DotTemplate;
 mod dot_html;
 use dot_html::DotHtmlInvocation;
+mod dot_include;
+use dot_include::DotInclude;
 
 #[proc_macro_attribute]
 pub fn dot(attr: TokenStream, item: TokenStream) -> TokenStream {
@@ -34,6 +36,17 @@ pub fn dot_template(_attr: TokenStream, item: TokenStream) -> TokenStream {
 #[proc_macro]
 pub fn dot_html(input: TokenStream) -> TokenStream {
     let c = parse_macro_input!(input as DotHtmlInvocation);
+
+    let expanded = quote! {
+       #c
+    };
+
+    TokenStream::from(expanded)
+}
+
+#[proc_macro]
+pub fn dot_include(input: TokenStream) -> TokenStream {
+    let c = parse_macro_input!(input as DotInclude);
 
     let expanded = quote! {
        #c
