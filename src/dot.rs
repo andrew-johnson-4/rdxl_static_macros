@@ -9,7 +9,8 @@ pub fn quote_itemfn(f: syn::ItemFn) -> TokenStream {
       #f
       #[ctor::ctor]
       fn #fctor() {
-         println!("{} {} = {}", std::module_path!(), #fi_s, #fi());
+         let fname = format!("{}/{}.html", std::module_path!().replace("::","/"), #fi_s);
+         rdxl_static::dot_to_file(fname, #fi()).expect("dot_to_file failed");
       }
    }
 }
