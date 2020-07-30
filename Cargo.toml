@@ -1,6 +1,6 @@
 [package]
 name = "rdxl_static_macros"
-version = "0.0.9"
+version = "0.0.10"
 authors = ["Andrew <andrew@subarctic.org>"]
 license = "MIT OR Apache-2.0"
 description = "Macros for RDXL Static Site Generation"
@@ -13,7 +13,6 @@ keywords = ["static","site","generation","macros"]
 proc-macro = true
 
 [dependencies]
-rdxl_static = "0.0.33"
 ctor = "0.1"
 Inflector = "0.11"
 rdxl_internals = "0.0.7"
