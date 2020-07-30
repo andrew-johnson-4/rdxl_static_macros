@@ -41,6 +41,7 @@ pub fn quote_itemfn(cfg: Cfg, f: syn::ItemFn) -> TokenStream {
    let dot_suffix = syn::LitStr::new(&cfg.suffix, fi.span());
    quote! {
       #f
+
       #[ctor::ctor]
       fn #fctor() {
          let fname = format!("{}/{}{}", std::module_path!().replace("::","/"), #fi_s, #dot_suffix);
