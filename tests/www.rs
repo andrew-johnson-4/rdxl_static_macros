@@ -16,6 +16,11 @@ pub mod static_files {
          "abcd"
       )
    }
+
+   #[dot(suffix=".txt")]
+   fn file2() -> String {
+      "aaa".to_string()
+   }
 }
 
 #[dot_template]

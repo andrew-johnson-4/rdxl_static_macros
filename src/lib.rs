@@ -11,10 +11,11 @@ mod dot_html;
 use dot_html::DotHtmlInvocation;
 
 #[proc_macro_attribute]
-pub fn dot(_attr: TokenStream, item: TokenStream) -> TokenStream {
+pub fn dot(attr: TokenStream, item: TokenStream) -> TokenStream {
+    let cfg = parse_macro_input!(attr as dot::Cfg);
     let f = parse_macro_input!(item as syn::ItemFn);
 
-    let expanded = dot::quote_itemfn(f);
+    let expanded = dot::quote_itemfn(cfg, f);
 
     TokenStream::from(expanded)
 }
